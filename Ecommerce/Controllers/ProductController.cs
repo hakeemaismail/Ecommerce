@@ -2,10 +2,12 @@
 using Ecommerce.Models;
 using Ecommerce.Models.DTO;
 using Ecommerce.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -32,6 +34,7 @@ namespace Ecommerce.Controllers
             return response;
         }
 
+        [AllowAnonymous]
         [HttpGet("getAllProducts")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -46,6 +49,7 @@ namespace Ecommerce.Controllers
             return response;
         }
 
+        [AllowAnonymous]
         [HttpGet("getAProduct")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

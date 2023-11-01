@@ -47,13 +47,14 @@ namespace BLL.Services
             {
                 var identityUser = new ApplicationUser()
                 {
+                    UserName = createUserDTO.Email,
                     Email = createUserDTO.Email,
                     FirstName = createUserDTO.FirstName,
                     LastName = createUserDTO.LastName
 
                 };
-                var result = _userManager.CreateAsync(identityUser);
-                return result.IsCompletedSuccessfully;
+                var result = await _userManager.CreateAsync(identityUser, createUserDTO.Password);
+                return result.Succeeded;
             }
         }
     }
