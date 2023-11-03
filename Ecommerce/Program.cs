@@ -30,17 +30,24 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<DataContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
     .AddJwtBearer(options => {
+        //options.RequireHttpsMetadata = false;
+        //options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value)),
             ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
             ValidateAudience = false,
-            ValidateIssuer = true,
+            ValidateIssuer = false,
             ClockSkew = TimeSpan.Zero
-        }; });
+        };
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -79,7 +86,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 }
 
 app.UseHttpsRedirection();
@@ -90,6 +98,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.AddGlobalErrorHandler();
+//app.AddGlobalErrorHandler();
 
 app.Run();
