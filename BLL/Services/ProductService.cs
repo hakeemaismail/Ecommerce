@@ -53,8 +53,16 @@ namespace Ecommerce.Repositories
            var product = await _context.Products.Where(x => x.Id == id).FirstOrDefaultAsync();
           if(product != null)
             {
-                Product productEntity = _mapper.Map<Product>(updatedProduct);
-                _context.SaveChanges();
+                //product = _mapper.Map<Product>(updatedProduct);
+                //await _context.SaveChangesAsync();
+                //productDTO = _mapper.Map<ProductDTO>(product);
+
+                _mapper.Map(updatedProduct, product);
+
+                // Save the changes to the database
+                await _context.SaveChangesAsync();
+
+                // Map the updated product back to a DTO
                 productDTO = _mapper.Map<ProductDTO>(product);
             }
             return productDTO;

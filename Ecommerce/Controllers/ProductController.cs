@@ -34,7 +34,7 @@ namespace Ecommerce.Controllers
             return response;
         }
 
-        [AllowAnonymous]
+       [AllowAnonymous]
         [HttpGet("getAllProducts")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
