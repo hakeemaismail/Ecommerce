@@ -16,10 +16,11 @@ namespace DAL.Models
         public float TotalAmount { get; set; }
 
         //Relationships
-        //public ShoppingCart? ShoppingCart { get; set; }
-        //public int CartID { get; set; }
-        //public Payment? Payment { get; set; }
-        //public int PaymentID { get; set; }
-        //public List<OrderDetails>? Details { get; set; }
+        public ShoppingCart? ShoppingCart { get; set; }
+        public int? CartID { get; set; }
+        public Payment? Payment { get; set; }
+        public Customer? Customer { get; set; }
+        public int? CustomerID { get; set; }
+        public ICollection<OrderDetails>? OrderDetails { get; set; }
     }
 }

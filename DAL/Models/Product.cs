@@ -7,7 +7,7 @@ namespace Ecommerce.Models
     public class Product
     {
         [Key]
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string? ProductName { get; set; }
         public float Price { get; set; }
         public string? Description { get; set; }
@@ -15,9 +15,10 @@ namespace Ecommerce.Models
 
         //Relationships
         public int? CategoryId { get; set; }
-        public Category? Category { get; set; }
-       
-       
+        public Category? Category { get; set; }    
+        public ICollection<OrderDetails>? OrderDetails { get; set; }
+        public ICollection<CartDetails>? CartDetails { get; set; }
+
 
     }
 }
