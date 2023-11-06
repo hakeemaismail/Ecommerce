@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231103085239_initial")]
-    partial class initial
+    [Migration("20231106044515_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -97,13 +97,190 @@ namespace DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("DAL.Models.CartDetails", b =>
+                {
+                    b.Property<int>("CartID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartID", "ProductID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("CartDetails");
+                });
+
+            modelBuilder.Entity("DAL.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"), 1L, 1);
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("DAL.Models.Customer", b =>
+                {
+                    b.Property<int>("CustomerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"), 1L, 1);
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CustomerId");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("DAL.Models.Order", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
+
+                    b.Property<int?>("CartID")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("OrderDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShippingAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("TotalAmount")
+                        .HasColumnType("real");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("CartID")
+                        .IsUnique();
+
+                    b.HasIndex("CustomerID");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("DAL.Models.OrderDetails", b =>
+                {
+                    b.Property<int?>("OrderID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderID", "ProductID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("DAL.Models.Payment", b =>
+                {
+                    b.Property<int>("PaymentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"), 1L, 1);
+
+                    b.Property<int?>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("OrderID")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<float>("PaymentAmount")
+                        .HasColumnType("real");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("PaymentID");
+
+                    b.HasIndex("CustomerID");
+
+                    b.HasIndex("OrderID")
+                        .IsUnique();
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("DAL.Models.ShoppingCart", b =>
+                {
+                    b.Property<int>("CartID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartID"), 1L, 1);
+
+                    b.Property<int?>("CustomerID")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartID");
+
+                    b.HasIndex("CustomerID")
+                        .IsUnique();
+
+                    b.ToTable("ShoppingCarts");
+                });
+
             modelBuilder.Entity("Ecommerce.Models.Product", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -115,6 +292,8 @@ namespace DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -252,6 +431,98 @@ namespace DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("DAL.Models.CartDetails", b =>
+                {
+                    b.HasOne("DAL.Models.ShoppingCart", "Cart")
+                        .WithMany("CartDetails")
+                        .HasForeignKey("CartID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.Product", "Product")
+                        .WithMany("CartDetails")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DAL.Models.Order", b =>
+                {
+                    b.HasOne("DAL.Models.ShoppingCart", "ShoppingCart")
+                        .WithOne("Order")
+                        .HasForeignKey("DAL.Models.Order", "CartID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Models.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerID");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("ShoppingCart");
+                });
+
+            modelBuilder.Entity("DAL.Models.OrderDetails", b =>
+                {
+                    b.HasOne("DAL.Models.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.Product", "Product")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DAL.Models.Payment", b =>
+                {
+                    b.HasOne("DAL.Models.Customer", "Customer")
+                        .WithMany("Payments")
+                        .HasForeignKey("CustomerID");
+
+                    b.HasOne("DAL.Models.Order", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("DAL.Models.Payment", "OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("DAL.Models.ShoppingCart", b =>
+                {
+                    b.HasOne("DAL.Models.Customer", "Customer")
+                        .WithOne("ShoppingCart")
+                        .HasForeignKey("DAL.Models.ShoppingCart", "CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Product", b =>
+                {
+                    b.HasOne("DAL.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId");
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -301,6 +572,41 @@ namespace DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DAL.Models.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("DAL.Models.Customer", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Payments");
+
+                    b.Navigation("ShoppingCart");
+                });
+
+            modelBuilder.Entity("DAL.Models.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+
+                    b.Navigation("Payment");
+                });
+
+            modelBuilder.Entity("DAL.Models.ShoppingCart", b =>
+                {
+                    b.Navigation("CartDetails");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Product", b =>
+                {
+                    b.Navigation("CartDetails");
+
+                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }

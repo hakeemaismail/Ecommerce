@@ -16,7 +16,10 @@ namespace DAL.Models
         public float PaymentAmount { get; set; }
 
         //Relationships
-        //public Order? Order { get; set; }
-        //public int OrderID { get; set; } 
+        public int? OrderID { get; set; }
+        public Order? Order { get; set; }
+        public Customer? Customer { get; set; }
+        public int? CustomerID { get; set; }
+
     }
 }
