@@ -12,10 +12,5 @@ namespace DAL.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        //Relationships 
-        //public ShoppingCart? ShoppingCart { get; set; }
-        //public int CartID { get; set; }
-        //public List<Order>? OrderList { get; set; }
-        //public List<Payment>? PaymentList { get; set; }
     }
 }

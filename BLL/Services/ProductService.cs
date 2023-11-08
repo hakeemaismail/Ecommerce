@@ -1,31 +1,30 @@
 ﻿using AutoMapper;
 using BLL.DTO;
-using Ecommerce.Data;
+using DAL.Repository;
 using Ecommerce.Models;
 using Ecommerce.Models.DTO;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Repositories
 {
     public class ProductService : IProductService
     {
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ProductService(DataContext context, IMapper mapper)
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
         public async Task<List<ProductDTO>> GetAllProducts()
         {
-            var products = await _context.Products.ToListAsync();
+            var products = _unitOfWork.Products.GetAll();
             var productsToReturn = _mapper.Map<List<ProductDTO>>(products);
             return productsToReturn;
         }
 
-        public async Task<ProductDTO> GetProductById(long productId)
+        public async Task<ProductDTO> GetProductById(int productId)
         {
-            var product = await _context.Products.Where(x => x.Id == productId).FirstOrDefaultAsync();
+            var product = _unitOfWork.Products.GetById(productId);
             var returnProduct = _mapper.Map<ProductDTO>(product);
             return returnProduct;
         }
@@ -39,42 +38,36 @@ namespace Ecommerce.Repositories
             }
 
             Product product = _mapper.Map<Product>(createProductDTO);
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Products.Add(product);
+            _unitOfWork.SaveAsync();
 
            productDTO = _mapper.Map<ProductDTO>(product);
            return productDTO;
 
         }
 
-        public async Task<ProductDTO> UpdateProduct(CreateProductDTO updatedProduct, long id)
+        public async Task<ProductDTO> UpdateProduct(CreateProductDTO updatedProduct, int id)
         {
            ProductDTO productDTO = new ProductDTO();
-           var product = await _context.Products.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+           var product = _unitOfWork.Products.GetById(id);
           if(product != null)
             {
-                //product = _mapper.Map<Product>(updatedProduct);
-                //await _context.SaveChangesAsync();
-                //productDTO = _mapper.Map<ProductDTO>(product);
-
                 _mapper.Map(updatedProduct, product);
-
-                // Save the changes to the database
-                await _context.SaveChangesAsync();
-
-                // Map the updated product back to a DTO
+                _unitOfWork.SaveAsync();
                 productDTO = _mapper.Map<ProductDTO>(product);
             }
             return productDTO;
         }
 
-        public async Task<bool> DeleteProductById(long productId)
+        public async Task<bool> DeleteProductById(int productId)
         {
-            var product = await _context.Products.Where(x => x.Id == productId).FirstOrDefaultAsync();
+            var product = _unitOfWork.Products.GetById(productId);
+            
             if(product != null)
             {
-                _context.Remove(product);
-                _context.SaveChanges();
+                _unitOfWork.Products.Remove(product);
+                _unitOfWork.SaveAsync();
                 return true;
             }
             return false;

@@ -1,7 +1,10 @@
+using BLL.Implementation;
 using BLL.Services;
 using DAL.Models;
+using DAL.Repository;
 using Ecommerce.Configurations;
 using Ecommerce.Data;
+using Ecommerce.Extensions;
 using Ecommerce.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -26,59 +29,9 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer
 (builder.Configuration.GetConnectionString("DefaultConnection")
 ));
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<DataContext>()
-    .AddDefaultTokenProviders();
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-    .AddJwtBearer(options => {
-        //options.RequireHttpsMetadata = false;
-        //options.SaveToken = true;
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value)),
-            ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
-            ValidateAudience = false,
-            ValidateIssuer = false,
-            ClockSkew = TimeSpan.Zero
-        };
-    });
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ecommerce API", Version = "v1" });
-
-    var securitySchema = new OpenApiSecurityScheme
-    {
-        Description = "JWT Auth Bearer Scheme",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        Reference = new OpenApiReference
-        {
-            Type = ReferenceType.SecurityScheme,
-            Id = "Bearer"
-        }
-    };
-
-    c.AddSecurityDefinition("Bearer", securitySchema);
-    var securityRequirement = new OpenApiSecurityRequirement
-                {
-                    { securitySchema, new[] { "Bearer" } }
-                };
-    c.AddSecurityRequirement(securityRequirement);
-});
-
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddTransient<IAuthService, AuthService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 

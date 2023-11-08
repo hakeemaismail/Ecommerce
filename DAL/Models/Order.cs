@@ -1,15 +1,11 @@
-﻿using DAL.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DAL.Enums;
+using DAL.Models.Enums;
 
 namespace DAL.Models
 {
-    public class Order
+    public class Order : BaseEntity
     {
-        public int OrderId { get; set; }
+       // public int OrderId { get; set; }
         public DateTime OrderDateTime { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public string ShippingAddress { get; set; }

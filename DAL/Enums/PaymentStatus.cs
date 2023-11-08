@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.DTO
+namespace DAL.Enums
 {
-    public class TokenDTO
+    public enum PaymentStatus
     {
-        public string Token { get; set; }
+        Success,
+        Pending,
+        Failed
     }
 }
