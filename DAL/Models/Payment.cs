@@ -1,15 +1,11 @@
-﻿using DAL.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DAL.Enums;
+using DAL.Models.Enums;
 
 namespace DAL.Models
 {
-    public class Payment
+    public class Payment : BaseEntity
     {
-        public int PaymentID { get; set; }
+        //public int PaymentID { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public DateTime DateTime { get; set; }
         public PaymentStatus PaymentStatus { get; set; }

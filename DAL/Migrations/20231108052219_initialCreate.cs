@@ -54,26 +54,28 @@ namespace DAL.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
+                    table.PrimaryKey("PK_Customers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,7 +193,8 @@ namespace DAL.Migrations
                     ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<float>(type: "real", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: true)
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -200,28 +203,29 @@ namespace DAL.Migrations
                         name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "CategoryId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "ShoppingCarts",
                 columns: table => new
                 {
-                    CartID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: false),
-                    CustomerID = table.Column<int>(type: "int", nullable: false)
+                    CustomerID = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShoppingCarts", x => x.CartID);
+                    table.PrimaryKey("PK_ShoppingCarts", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ShoppingCarts_Customers_CustomerID",
                         column: x => x.CustomerID,
                         principalTable: "Customers",
-                        principalColumn: "CustomerId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -245,7 +249,7 @@ namespace DAL.Migrations
                         name: "FK_CartDetails_ShoppingCarts_CartID",
                         column: x => x.CartID,
                         principalTable: "ShoppingCarts",
-                        principalColumn: "CartID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -253,28 +257,29 @@ namespace DAL.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    OrderId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OrderStatus = table.Column<int>(type: "int", nullable: false),
                     ShippingAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TotalAmount = table.Column<float>(type: "real", nullable: false),
                     CartID = table.Column<int>(type: "int", nullable: false),
-                    CustomerID = table.Column<int>(type: "int", nullable: true)
+                    CustomerID = table.Column<int>(type: "int", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.OrderId);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Orders_Customers_CustomerID",
                         column: x => x.CustomerID,
                         principalTable: "Customers",
-                        principalColumn: "CustomerId");
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_ShoppingCarts_CartID",
                         column: x => x.CartID,
                         principalTable: "ShoppingCarts",
-                        principalColumn: "CartID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -294,7 +299,7 @@ namespace DAL.Migrations
                         name: "FK_OrderDetails_Orders_OrderID",
                         column: x => x.OrderID,
                         principalTable: "Orders",
-                        principalColumn: "OrderId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OrderDetails_Products_ProductID",
@@ -308,28 +313,29 @@ namespace DAL.Migrations
                 name: "Payments",
                 columns: table => new
                 {
-                    PaymentID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PaymentMethod = table.Column<int>(type: "int", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentStatus = table.Column<int>(type: "int", nullable: false),
                     PaymentAmount = table.Column<float>(type: "real", nullable: false),
                     OrderID = table.Column<int>(type: "int", nullable: false),
-                    CustomerID = table.Column<int>(type: "int", nullable: true)
+                    CustomerID = table.Column<int>(type: "int", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payments", x => x.PaymentID);
+                    table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Payments_Customers_CustomerID",
                         column: x => x.CustomerID,
                         principalTable: "Customers",
-                        principalColumn: "CustomerId");
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Payments_Orders_OrderID",
                         column: x => x.OrderID,
                         principalTable: "Orders",
-                        principalColumn: "OrderId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

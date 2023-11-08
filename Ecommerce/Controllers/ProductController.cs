@@ -1,5 +1,4 @@
 ﻿using BLL.DTO;
-using Ecommerce.Models;
 using Ecommerce.Models.DTO;
 using Ecommerce.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -21,8 +20,8 @@ namespace Ecommerce.Controllers
         [HttpPost("addProduct")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-            public async Task<ActionResult<ResponseDTO<ProductDTO>>> AddProduct(CreateProductDTO productDTO)
-            {
+        public async Task<ActionResult<ResponseDTO<ProductDTO>>> AddProduct(CreateProductDTO productDTO)
+        {
             var product = await _repository.CreateProduct(productDTO);
             var response = new ResponseDTO<ProductDTO>
             {
@@ -34,7 +33,7 @@ namespace Ecommerce.Controllers
             return response;
         }
 
-       [AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet("getAllProducts")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -53,7 +52,7 @@ namespace Ecommerce.Controllers
         [HttpGet("getAProduct")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ResponseDTO<ProductDTO>> GetAProduct(long id)
+        public async Task<ResponseDTO<ProductDTO>> GetAProduct(int id)
         {
             var product = await _repository.GetProductById(id);
             var response = new ResponseDTO<ProductDTO>
@@ -67,7 +66,7 @@ namespace Ecommerce.Controllers
         [HttpPut("updateProduct")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ResponseDTO<ProductDTO>> UpdateProduct(long id, CreateProductDTO updated)
+        public async Task<ResponseDTO<ProductDTO>> UpdateProduct(int id, CreateProductDTO updated)
         {
             var updatedProduct = await _repository.UpdateProduct(updated, id);
             var response = new ResponseDTO<ProductDTO>
@@ -81,7 +80,7 @@ namespace Ecommerce.Controllers
         [HttpDelete("deleteProduct")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ResponseDTO<bool>> DeleteProduct(long id)
+        public async Task<ResponseDTO<bool>> DeleteProduct(int id)
         {
             bool product = await _repository.DeleteProductById(id);
             var response = new ResponseDTO<bool>

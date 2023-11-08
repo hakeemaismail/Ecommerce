@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DAL.Models
+﻿namespace DAL.Models
 {
-    public class Customer
+    public class Customer : BaseEntity
     {
-        public int CustomerId { get; set; }
+        //public int CustomerId { get; set; }
         public string FullName { get; set; }
 
         //relationships

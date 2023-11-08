@@ -1,6 +1,5 @@
 ﻿using BLL.DTO;
 using BLL.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers

@@ -50,7 +50,6 @@ C:\Users\hakee\source\repos\Ecommerce\Ecommerce\obj\Debug\net6.0\Ecommerce.Gener
 C:\Users\hakee\source\repos\Ecommerce\Ecommerce\obj\Debug\net6.0\Ecommerce.AssemblyInfoInputs.cache
 C:\Users\hakee\source\repos\Ecommerce\Ecommerce\obj\Debug\net6.0\Ecommerce.AssemblyInfo.cs
 C:\Users\hakee\source\repos\Ecommerce\Ecommerce\obj\Debug\net6.0\Ecommerce.csproj.CoreCompileInputs.cache
-C:\Users\hakee\source\repos\Ecommerce\Ecommerce\obj\Debug\net6.0\Ecommerce.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\hakee\source\repos\Ecommerce\Ecommerce\obj\Debug\net6.0\Ecommerce.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\hakee\source\repos\Ecommerce\Ecommerce\obj\Debug\net6.0\staticwebassets\msbuild.Ecommerce.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Users\hakee\source\repos\Ecommerce\Ecommerce\obj\Debug\net6.0\staticwebassets\msbuild.build.Ecommerce.props
@@ -78,3 +77,4 @@ C:\Users\hakee\source\repos\Ecommerce\Ecommerce\bin\Debug\net6.0\Microsoft.AspNe
 C:\Users\hakee\source\repos\Ecommerce\Ecommerce\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\hakee\source\repos\Ecommerce\Ecommerce\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\hakee\source\repos\Ecommerce\Ecommerce\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\hakee\source\repos\Ecommerce\Ecommerce\obj\Debug\net6.0\Ecommerce.MvcApplicationPartsAssemblyInfo.cs
