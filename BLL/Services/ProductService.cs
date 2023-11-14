@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BLL.DTO;
-using DAL.Repository;
+using DAL.Repository.IRepository;
 using Ecommerce.Models;
 using Ecommerce.Models.DTO;
 
@@ -32,29 +32,29 @@ namespace Ecommerce.Repositories
         public async Task<ProductDTO> CreateProduct(CreateProductDTO createProductDTO)
         {
             ProductDTO productDTO = new ProductDTO();
-            if(createProductDTO is null)
+            if (createProductDTO is null)
             {
                 return productDTO;
             }
 
             Product product = _mapper.Map<Product>(createProductDTO);
             _unitOfWork.Products.Add(product);
-            _unitOfWork.SaveAsync();
+            await _unitOfWork.SaveAsync();
 
-           productDTO = _mapper.Map<ProductDTO>(product);
-           return productDTO;
+            productDTO = _mapper.Map<ProductDTO>(product);
+            return productDTO;
 
         }
 
         public async Task<ProductDTO> UpdateProduct(CreateProductDTO updatedProduct, int id)
         {
-           ProductDTO productDTO = new ProductDTO();
+            ProductDTO productDTO = new ProductDTO();
 
-           var product = _unitOfWork.Products.GetById(id);
-          if(product != null)
+            var product = _unitOfWork.Products.GetById(id);
+            if (product != null)
             {
                 _mapper.Map(updatedProduct, product);
-                _unitOfWork.SaveAsync();
+                await _unitOfWork.SaveAsync();
                 productDTO = _mapper.Map<ProductDTO>(product);
             }
             return productDTO;
@@ -63,11 +63,11 @@ namespace Ecommerce.Repositories
         public async Task<bool> DeleteProductById(int productId)
         {
             var product = _unitOfWork.Products.GetById(productId);
-            
-            if(product != null)
+
+            if (product != null)
             {
                 _unitOfWork.Products.Remove(product);
-                _unitOfWork.SaveAsync();
+                await _unitOfWork.SaveAsync();
                 return true;
             }
             return false;

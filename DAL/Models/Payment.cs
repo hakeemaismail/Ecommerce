@@ -5,7 +5,6 @@ namespace DAL.Models
 {
     public class Payment : BaseEntity
     {
-        //public int PaymentID { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public DateTime DateTime { get; set; }
         public PaymentStatus PaymentStatus { get; set; }

@@ -1,11 +1,6 @@
 ﻿using BLL.DTO;
 using DAL.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -33,7 +28,7 @@ namespace BLL.Services
             {
                 throw new Exception("The login details don't match");
             }
-            
+
         }
 
         public async Task<bool> RegisterUser(CreateUserDTO createUserDTO)

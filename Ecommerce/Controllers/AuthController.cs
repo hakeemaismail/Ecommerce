@@ -58,9 +58,9 @@ namespace Ecommerce.Controllers
             try
             {
                 var result = await _authService.Login(login);
-         
 
-                if (result!=null)
+
+                if (result != null)
                 {
 
                     var response = new LoginResponseDTO

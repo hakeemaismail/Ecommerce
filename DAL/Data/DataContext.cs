@@ -20,15 +20,17 @@ namespace Ecommerce.Data
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<CartDetails> CartDetails { get; set; }
+        //public DbSet<UserRefreshTokens> UserRefreshToken { get; set; }
+        //public DbSet<Tokens> Tokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.Entity<Customer>()
-                .HasOne(e => e.ShoppingCart)
+                .HasMany(e => e.ShoppingCart)
                 .WithOne(e => e.Customer)
-                .HasForeignKey<ShoppingCart>(e => e.CustomerID)
+                .HasForeignKey(e => e.CustomerID)
                 .IsRequired();
 
             builder.Entity<ShoppingCart>()
