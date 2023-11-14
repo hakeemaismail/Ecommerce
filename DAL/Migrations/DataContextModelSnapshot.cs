@@ -103,6 +103,12 @@ namespace DAL.Migrations
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
 
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("CartID", "ProductID");
 
                     b.HasIndex("ProductID");
@@ -175,10 +181,9 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ShippingAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("TotalAmount")
+                    b.Property<float?>("TotalAmount")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
@@ -267,19 +272,12 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("Price")
+                    b.Property<float?>("TotalAmount")
                         .HasColumnType("real");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerID")
-                        .IsUnique();
+                    b.HasIndex("CustomerID");
 
                     b.ToTable("ShoppingCarts");
                 });
@@ -522,8 +520,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Models.ShoppingCart", b =>
                 {
                     b.HasOne("DAL.Models.Customer", "Customer")
-                        .WithOne("ShoppingCart")
-                        .HasForeignKey("DAL.Models.ShoppingCart", "CustomerID")
+                        .WithMany("ShoppingCart")
+                        .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

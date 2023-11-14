@@ -1,6 +1,7 @@
 ﻿using BLL.Implementation;
 using BLL.Services;
-using DAL.Repository;
+using BLL.Services.IServices;
+using DAL.Repository.IRepository;
 using Ecommerce.Repositories;
 
 namespace Ecommerce.Extensions
@@ -13,6 +14,9 @@ namespace Ecommerce.Extensions
             services.AddTransient<IAuthService, AuthService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IShoppingCartService, ShoppingCartService>();
 
             return services;
         }

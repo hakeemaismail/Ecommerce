@@ -1,18 +1,8 @@
-using BLL.Implementation;
-using BLL.Services;
-using DAL.Models;
-using DAL.Repository;
-using Ecommerce.Configurations;
 using Ecommerce.Data;
+using Ecommerce.Exceptions;
 using Ecommerce.Extensions;
-using Ecommerce.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using System.Reflection;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +33,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
@@ -50,7 +42,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-//app.AddGlobalErrorHandler();
 
 app.Run();

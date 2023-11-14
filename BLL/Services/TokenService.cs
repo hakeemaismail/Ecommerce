@@ -46,14 +46,14 @@ namespace BLL.Services
                     return null;
                 }
 
-               return tokenResult;
+                return tokenResult;
             }
 
             catch (Exception ex)
             {
                 return ex.Message;
             }
-        
+
         }
     }
 }

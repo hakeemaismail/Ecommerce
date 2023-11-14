@@ -1,15 +1,13 @@
-﻿using DAL.Enums;
-using DAL.Models.Enums;
+﻿using DAL.Models.Enums;
 
 namespace DAL.Models
 {
     public class Order : BaseEntity
     {
-       // public int OrderId { get; set; }
-        public DateTime OrderDateTime { get; set; }
-        public OrderStatus OrderStatus { get; set; }
-        public string ShippingAddress { get; set; }
-        public float TotalAmount { get; set; }
+        public DateTime OrderDateTime { get; set; } = DateTime.Now;
+        public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
+        public string? ShippingAddress { get; set; }
+        public float? TotalAmount { get; set; }
 
         //Relationships
         public ShoppingCart? ShoppingCart { get; set; }
