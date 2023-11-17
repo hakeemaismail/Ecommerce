@@ -20,9 +20,8 @@ namespace Ecommerce.Data
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<CartDetails> CartDetails { get; set; }
-        //public DbSet<UserRefreshTokens> UserRefreshToken { get; set; }
-        //public DbSet<Tokens> Tokens { get; set; }
-
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+       
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
