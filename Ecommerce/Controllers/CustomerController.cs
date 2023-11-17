@@ -1,6 +1,5 @@
 ﻿using BLL.Services.IServices;
 using DAL.DTO;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers
@@ -27,6 +26,13 @@ namespace Ecommerce.Controllers
         {
             var customerList = await _customerService.GetAllCustomers();
             return customerList;
+        }
+
+        [HttpGet("GetCustomerByID")]
+        public async Task<CustomerDTO> GetCustomerByID(int ID)
+        {
+            var customer = await _customerService.GetCustomerByID(ID);
+            return customer;
         }
     }
 }
