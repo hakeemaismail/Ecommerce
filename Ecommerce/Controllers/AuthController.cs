@@ -96,8 +96,7 @@ namespace Ecommerce.Controllers
                     var response = new TokenDTO
                     {
                         Token = _tokenService.CreateToken(result, roles),
-                        RefreshToken = _tokenService.CreateNewRefreshToken(result.Id, Guid.NewGuid().ToString()) // Generate a new refresh token upon login
-                    };
+                        RefreshToken = _tokenService.CreateNewRefreshToken(result.Id, Guid.NewGuid().ToString()) 
 
                     return Ok(response);
                 }
