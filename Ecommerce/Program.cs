@@ -1,6 +1,8 @@
+using DAL.Models;
 using Ecommerce.Data;
 using Ecommerce.Exceptions;
 using Ecommerce.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -31,6 +33,27 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
 
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
+}
+
+using (var scope = app.Services.CreateScope())
+{
+
+    //seed roles
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    var roles = new[]
+    {
+        "Admin",
+        "User"
+    };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
 }
 
 app.UseMiddleware<ExceptionMiddleware>();

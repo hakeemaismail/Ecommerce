@@ -7,22 +7,33 @@ namespace BLL.Services
     public class AuthService : IAuthService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        public AuthService(UserManager<ApplicationUser> userManager)
+        private readonly ITokenService _tokenService;
+        public AuthService(UserManager<ApplicationUser> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
+            _tokenService = tokenService;
         }
 
         public async Task<ApplicationUser> Login(LoginDTO loginDTO)
         {
-            var userExists = await _userManager.FindByEmailAsync(loginDTO.Email);
-            if (userExists == null)
+            var user = await _userManager.FindByEmailAsync(loginDTO.Email);
+            if (user == null)
             {
                 throw new Exception("Email address does not exist");
             }
-            var response = await _userManager.CheckPasswordAsync(userExists, loginDTO.Password);
+            var response = await _userManager.CheckPasswordAsync(user, loginDTO.Password);
+            var roles = await _userManager.GetRolesAsync(user);
+            var jwtTokenId = $"JTI{Guid.NewGuid()}";
+            var accessToken = _tokenService.CreateToken(user, roles);
+            var refreshToken = _tokenService.CreateNewRefreshToken(user.Id, jwtTokenId);
+            TokenDTO tokenDTO = new TokenDTO()
+            {
+                Token = accessToken,
+                RefreshToken = refreshToken
+            };
             if (response)
             {
-                return userExists;
+                return user;
             }
             else
             {
@@ -31,10 +42,10 @@ namespace BLL.Services
 
         }
 
-        public async Task<bool> RegisterUser(CreateUserDTO createUserDTO)
+        public async Task<bool> RegisterUser(CreateUserDTO createUserDTO, string roleName)
         {
-            var emailExists = await _userManager.FindByEmailAsync(createUserDTO.Email);
-            if (emailExists != null)
+            var email = await _userManager.FindByEmailAsync(createUserDTO.Email);
+            if (email != null)
             {
                 throw new Exception("Email already exists!");
             }
@@ -49,7 +60,17 @@ namespace BLL.Services
 
                 };
                 var result = await _userManager.CreateAsync(identityUser, createUserDTO.Password);
-                return result.Succeeded;
+                if (result.Succeeded)
+                {
+                    var role = await _userManager.AddToRoleAsync(identityUser, roleName);
+                    if (!role.Succeeded)
+                    {
+                        throw new Exception("Error in assigning role to user");
+
+                    }
+
+                }
+                return true;
             }
         }
     }
