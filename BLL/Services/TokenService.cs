@@ -147,7 +147,7 @@ namespace BLL.Services
 
                 if (jwt == null || jwt.Claims == null)
                 {
-                    // Log or print a message indicating that the JWT or its claims are null
+                   
                     Console.WriteLine("JWT or claims are null.");
                     return (false, null, null);
                 }
@@ -159,7 +159,7 @@ namespace BLL.Services
             }
             catch (Exception ex)
             {
-                // Log or print the exception details
+                
                 Console.WriteLine($"Error in GetAccessTokenData: {ex.Message}");
                 return (false, null, null);
             }
