@@ -7,11 +7,10 @@ namespace BLL.Services
     public class AuthService : IAuthService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ITokenService _tokenService;
-        public AuthService(UserManager<ApplicationUser> userManager, ITokenService tokenService)
+        
+        public AuthService(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _tokenService = tokenService;
         }
 
         public async Task<ApplicationUser> Login(LoginDTO loginDTO)
@@ -22,15 +21,7 @@ namespace BLL.Services
                 throw new Exception("Email address does not exist");
             }
             var response = await _userManager.CheckPasswordAsync(user, loginDTO.Password);
-            var roles = await _userManager.GetRolesAsync(user);
-            var jwtTokenId = $"JTI{Guid.NewGuid()}";
-            var accessToken = _tokenService.CreateToken(user, roles);
-            var refreshToken = _tokenService.CreateNewRefreshToken(user.Id, jwtTokenId);
-            //TokenDTO tokenDTO = new TokenDTO()
-            //{
-            //    Token = accessToken,
-            //    RefreshToken = refreshToken
-            //};
+           
             if (response)
             {
                 return user;
