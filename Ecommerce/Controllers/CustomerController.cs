@@ -1,5 +1,6 @@
 ﻿using BLL.Services.IServices;
 using DAL.DTO;
+using Ecommerce.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers
@@ -15,24 +16,48 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPost("AddCustomer")]
-        public async Task<CustomerDTO> AddCustomer(CreateCustomerDTO customerDTO)
+        public async Task<ResponseDTO<CustomerDTO>> AddCustomer(CreateCustomerDTO customerDTO)
         {
             var customer = await _customerService.CreateCustomer(customerDTO);
-            return customer;
+            var response = new ResponseDTO<CustomerDTO>
+            {
+                isSuccess = true,
+                message = "Customer has been added",
+                code = StatusCodes.Status200OK,
+                data = customer
+
+            };
+            return response;
         }
 
         [HttpGet("ViewAllCustomers")]
-        public async Task<IEnumerable<CustomerDTO>> ViewAllCustomers()
+        public async Task<ResponseDTO<IEnumerable<CustomerDTO>>> ViewAllCustomers()
         {
             var customerList = await _customerService.GetAllCustomers();
-            return customerList;
+            var response = new ResponseDTO<IEnumerable<CustomerDTO>>
+            {
+                isSuccess = true,
+                message = "Customer list",
+                code = StatusCodes.Status200OK,
+                data = customerList
+
+            };
+            return response;
         }
 
         [HttpGet("GetCustomerByID")]
-        public async Task<CustomerDTO> GetCustomerByID(int ID)
+        public async Task<ResponseDTO<CustomerDTO>> GetCustomerByID(int ID)
         {
             var customer = await _customerService.GetCustomerByID(ID);
-            return customer;
+            var response = new ResponseDTO<CustomerDTO>
+            {
+                isSuccess = true,
+                message = "Customer fetched from database",
+                code = StatusCodes.Status200OK,
+                data = customer
+
+            };
+            return response;
         }
     }
 }
