@@ -24,15 +24,22 @@ namespace BLL.Services
             _unitOfWork.Customer.Add(customer);
             await _unitOfWork.SaveAsync();
 
-            CustomerDTO customer1 = _mapper.Map<CustomerDTO>(customer);
-            return customer1;
+            CustomerDTO createdCustomer = _mapper.Map<CustomerDTO>(customer);
+            return createdCustomer;
         }
 
         public async Task<IEnumerable<CustomerDTO>> GetAllCustomers()
         {
-            var result = _unitOfWork.Customer.GetAll();
-            IEnumerable<CustomerDTO> customers = _mapper.Map<List<CustomerDTO>>(result);
+            var customerList = _unitOfWork.Customer.GetAll();
+            IEnumerable<CustomerDTO> customers = _mapper.Map<List<CustomerDTO>>(customerList);
             return customers;
+        }
+
+        public async Task<CustomerDTO> GetCustomerByID(int id)
+        {
+            var result = _unitOfWork.Customer.GetById(id);
+            CustomerDTO customer = _mapper.Map<CustomerDTO>(result);
+            return customer;
         }
     }
 }

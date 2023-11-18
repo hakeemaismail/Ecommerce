@@ -45,8 +45,8 @@ namespace BLL.Services
                     Price = price
                 };
 
-                OrderDetails orderDetails1 = _mapper.Map<OrderDetails>(orderDetails);
-                _unitOfWork.OrderDetails.Add(orderDetails1);
+                OrderDetails orderDetailsEntity = _mapper.Map<OrderDetails>(orderDetails);
+                _unitOfWork.OrderDetails.Add(orderDetailsEntity);
                 await _unitOfWork.SaveAsync();
             }
 
@@ -76,13 +76,13 @@ namespace BLL.Services
 
         public async Task<ViewOrderDetailsDTO> ViewOrderDetails(int orderId)
         {
-            var OrderDeets = _unitOfWork.Orders.GetOrderDetails(orderId);
+            var orderDetails = _unitOfWork.Orders.GetOrderDetails(orderId);
             
                 ViewOrderDetailsDTO viewOrderDetailsDTO = new ViewOrderDetailsDTO
                 {
                     Id = orderId,
-                    TotalAmount = OrderDeets.TotalAmount ?? 0,
-                    Details = OrderDeets.OrderDetails.Select(x => new OrderBriefDTO
+                    TotalAmount = orderDetails.TotalAmount ?? 0,
+                    Details = orderDetails.OrderDetails.Select(x => new OrderBriefDTO
                     {
                         ProductID = x.ProductID ?? 0,
                         Quantity = x.Quantity,

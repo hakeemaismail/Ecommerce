@@ -21,9 +21,9 @@ namespace BLL.Services
             var prices = _unitOfWork.CartDetails.PricesOfProductsInCart(cartID);
 
             float totalAmount = 0;
-            foreach (var pr in prices)
+            foreach (var price in prices)
             {
-                totalAmount += pr;
+                totalAmount += price;
             };
 
             var shoppingCart = _unitOfWork.ShoppingCart.GetById(cartID);
@@ -47,13 +47,13 @@ namespace BLL.Services
         public async Task<bool> AddProductsToCart(CreateCartDetailsDTO cartDetailsDTO, int cartId, int customerId)
         {
             var product = _unitOfWork.Products.GetById(cartDetailsDTO.ProductID);
-            var price = product.Price;
+            var priceOfAProduct = product.Price;
 
             var cart = new CartDetailsDTO
             {
                 CartID = cartId,
                 ProductID = cartDetailsDTO.ProductID,
-                Price = price
+                Price = priceOfAProduct
             };
             CartDetails cartDetails = _mapper.Map<CartDetails>(cart);
             _unitOfWork.CartDetails.Add(cartDetails);
@@ -62,9 +62,9 @@ namespace BLL.Services
             var prices = _unitOfWork.CartDetails.PricesOfProductsInCart(cartId);
 
             float totalAmount = 0;
-            foreach (var pr in prices)
+            foreach (var price in prices)
             {
-                totalAmount += pr;
+                totalAmount += price;
             };
 
             var shoppingCart = _unitOfWork.ShoppingCart.GetById(cartId);
@@ -94,9 +94,9 @@ namespace BLL.Services
                 var prices = _unitOfWork.CartDetails.PricesOfProductsInCart(cartID);
 
                 float totalAmount = 0;
-                foreach (var pr in prices)
+                foreach (var price in prices)
                 {
-                    totalAmount += pr;
+                    totalAmount += price;
                 };
 
                 var shoppingCart = _unitOfWork.ShoppingCart.GetById(cartID);
@@ -128,9 +128,9 @@ namespace BLL.Services
                 var prices = _unitOfWork.CartDetails.PricesOfProductsInCart(cartID);
 
                 float totalAmount = 0;
-                foreach (var pr in prices)
+                foreach (var price in prices)
                 {
-                    totalAmount += pr;
+                    totalAmount += price;
                 };
 
                 var shoppingCart = _unitOfWork.ShoppingCart.GetById(cartID);
@@ -152,12 +152,12 @@ namespace BLL.Services
 
         public async Task<ViewShoppingCartDTO> ViewShoppingCart(int cartID)
         {
-            var Shoppingcart = _unitOfWork.ShoppingCart.ViewShoppingCart(cartID);
+            var ShoppingCart = _unitOfWork.ShoppingCart.ViewShoppingCart(cartID);
             ViewShoppingCartDTO ShoppingCartDTO = new ViewShoppingCartDTO
             {
                 CartID = cartID,
-                TotalAmount = Shoppingcart.TotalAmount ?? 0,
-                ProductsInCart = Shoppingcart.CartDetails.Select(x => new ViewProductsInCartDTO
+                TotalAmount = ShoppingCart.TotalAmount ?? 0,
+                ProductsInCart = ShoppingCart.CartDetails.Select(x => new ViewProductsInCartDTO
                 {
                     ProductId = x.ProductID,
                     Quantity = x.Quantity,

@@ -26,11 +26,11 @@ namespace BLL.Services
             var jwtTokenId = $"JTI{Guid.NewGuid()}";
             var accessToken = _tokenService.CreateToken(user, roles);
             var refreshToken = _tokenService.CreateNewRefreshToken(user.Id, jwtTokenId);
-            TokenDTO tokenDTO = new TokenDTO()
-            {
-                Token = accessToken,
-                RefreshToken = refreshToken
-            };
+            //TokenDTO tokenDTO = new TokenDTO()
+            //{
+            //    Token = accessToken,
+            //    RefreshToken = refreshToken
+            //};
             if (response)
             {
                 return user;

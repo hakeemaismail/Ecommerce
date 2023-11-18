@@ -11,5 +11,6 @@ namespace BLL.Services.IServices
     {
       Task<CustomerDTO> CreateCustomer (CreateCustomerDTO customerDTO);
       Task<IEnumerable<CustomerDTO>> GetAllCustomers();
+       Task<CustomerDTO> GetCustomerByID(int id);
     }
 }

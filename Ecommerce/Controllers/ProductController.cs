@@ -11,18 +11,16 @@ namespace Ecommerce.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductService _repository;
-        public ProductController(IProductService repository)
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService)
         {
-            _repository = repository;
+            _productService = productService;
         }
 
         [HttpPost("addProduct")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ResponseDTO<ProductDTO>>> AddProduct(CreateProductDTO productDTO)
         {
-            var product = await _repository.CreateProduct(productDTO);
+            var product = await _productService.CreateProduct(productDTO);
             var response = new ResponseDTO<ProductDTO>
             {
                 isSuccess = true,
@@ -35,11 +33,9 @@ namespace Ecommerce.Controllers
 
         [AllowAnonymous]
         [HttpGet("getAllProducts")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ResponseDTO<List<ProductDTO>>> GetAllProducts()
         {
-            List<ProductDTO> products = await _repository.GetAllProducts();
+            List<ProductDTO> products = await _productService.GetAllProducts();
             var response = new ResponseDTO<List<ProductDTO>>
             {
                 isSuccess = true,
@@ -50,11 +46,9 @@ namespace Ecommerce.Controllers
 
         [AllowAnonymous]
         [HttpGet("getAProduct")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ResponseDTO<ProductDTO>> GetAProduct(int id)
         {
-            var product = await _repository.GetProductById(id);
+            var product = await _productService.GetProductById(id);
             var response = new ResponseDTO<ProductDTO>
             {
                 isSuccess = true,
@@ -64,11 +58,9 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPut("updateProduct")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ResponseDTO<ProductDTO>> UpdateProduct(int id, CreateProductDTO updated)
         {
-            var updatedProduct = await _repository.UpdateProduct(updated, id);
+            var updatedProduct = await _productService.UpdateProduct(updated, id);
             var response = new ResponseDTO<ProductDTO>
             {
                 isSuccess = true,
@@ -78,11 +70,9 @@ namespace Ecommerce.Controllers
         }
 
         [HttpDelete("deleteProduct")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ResponseDTO<bool>> DeleteProduct(int id)
         {
-            bool product = await _repository.DeleteProductById(id);
+            bool product = await _productService.DeleteProductById(id);
             var response = new ResponseDTO<bool>
             {
                 isSuccess = true,

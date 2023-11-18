@@ -1,4 +1,4 @@
-﻿using BLL.DTO;
+using BLL.DTO;
 using BLL.Services;
 using DAL.Models;
 using Microsoft.AspNetCore.Identity;
@@ -96,7 +96,8 @@ namespace Ecommerce.Controllers
                     var response = new TokenDTO
                     {
                         Token = _tokenService.CreateToken(result, roles),
-                        RefreshToken = _tokenService.CreateNewRefreshToken(result.Id, Guid.NewGuid().ToString()) 
+                        RefreshToken = _tokenService.CreateNewRefreshToken(result.Id, Guid.NewGuid().ToString())
+                    }; 
 
                     return Ok(response);
                 }

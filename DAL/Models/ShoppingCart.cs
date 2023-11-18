@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DAL.Models
 {
@@ -10,6 +11,8 @@ namespace DAL.Models
         public Order? Order { get; set; }
         public ICollection<CartDetails>? CartDetails { get; set; }
         public Customer? Customer { get; set; }
+
+        [ForeignKey("CustomerID")]
         public int? CustomerID { get; set; }
     }
 }

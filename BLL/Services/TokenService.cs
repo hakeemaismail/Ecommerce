@@ -1,4 +1,4 @@
-﻿using BLL.DTO;
+using BLL.DTO;
 using DAL.Models;
 using Ecommerce.Data;
 using Microsoft.AspNetCore.Identity;
@@ -147,7 +147,7 @@ namespace BLL.Services
 
                 if (jwt == null || jwt.Claims == null)
                 {
-                   
+                    
                     Console.WriteLine("JWT or claims are null.");
                     return (false, null, null);
                 }
